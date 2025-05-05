@@ -48,6 +48,6 @@ install -Dm644 usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.
 /usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
 
 %changelog
-* Sat May 04 2025 Junior Fox <cjuniorfox@gmail.com> - 1.0-1
+* Sun May 04 2025 Junior Fox <cjuniorfox@gmail.com> - 1.0-1
 - Initial build
 
