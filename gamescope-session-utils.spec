@@ -1,5 +1,5 @@
 Name:           gamescope-session-utils
-Version:        1.0
+Version:        1.1
 Release:        1%{?dist}
 Summary:        Steam/Gamescope session switch utilities
 
@@ -30,9 +30,9 @@ make DESTDIR=%{buildroot} install
 /usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
 
 %changelog
+* Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.1-1
+- Added README and LICENSE (cjuniorfox@gmail.com)
+- fixed icons path (cjuniorfox@gmail.com)
+
 * Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.0-1
 - new package built with tito
-
-* Fri May 03 2025 Your Name <cjuniorfox@gmail.com> - 1.0-1
-- Initial package
-
