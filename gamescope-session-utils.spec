@@ -1,5 +1,5 @@
 Name:           gamescope-session
-Version:        1.0
+Version:        1.1
 Release:        1%{?dist}
 Summary:        Custom Steam Gamescope session switcher
 
@@ -48,6 +48,9 @@ install -Dm644 usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.
 /usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
 
 %changelog
+* Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.1-1
+- new package built with tito
+
 * Sun May 04 2025 Junior Fox <cjuniorfox@gmail.com> - 1.0-1
 - Initial build
 
