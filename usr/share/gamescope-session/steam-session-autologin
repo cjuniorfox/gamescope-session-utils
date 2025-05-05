@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+CONFIG_FILE="/etc/sddm.conf.d/zz-autologin-steam-session.conf"
+if [[ -z "$1" ]]; then
+	echo "Usage:" 
+	echo "Start Steam session: $0 start"
+	echo "Leave Steam session: $0 stop"
+	exit 1
+fi
+
+ACTION=$1
+
+if [[ "$ACTION" == "start" ]]; then
+cat << EOF > "${CONFIG_FILE}" 
+[Autologin]
+Relogin=true
+Session=steam-gamescope
+EOF
+exit 0
+fi
+
+if [[ "$ACTION" == "stop" ]]; then
+	rm -f "${CONFIG_FILE}"
+	exit 0
+fi
+
+echo "Neither of '$0 start' or '$0 stop' operation issued."
+exit 1

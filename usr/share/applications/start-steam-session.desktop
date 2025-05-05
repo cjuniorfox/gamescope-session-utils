@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Start Steam Session
+Comment=Start Steam Session
+
+Exec=/usr/share/gamescope-session/restart-to-gamemode
+
+Icon=steamdeck-gaming-return
+Type=Application
+
+Categories=Network;FileTransfer;Game;
+MimeType=x-scheme-handler/steam;x-scheme-handler/steamlink;
+Actions=Store;Community;Library;Servers;Screenshots;News;Settings;BigPicture;Friends;
+PrefersNonDefaultGPU=true

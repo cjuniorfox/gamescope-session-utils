@@ -1,0 +1,22 @@
+#!/bin/bash
+export ENABLE_HDR_WSI=1
+export DXVK_HDR=1
+
+# Start user dbus session
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+  eval "$(dbus-launch --sh-syntax)"
+  trap 'kill $DBUS_SESSION_BUS_PID' EXIT
+fi
+
+# Start Gamescope natively and run Steam Flatpak inside it
+exec /usr/bin/gamescope \
+	-W 3840 -H 2180 \
+	-w 2560 -h 1440 \
+	--xwayland-count 2 \
+	--default-touch-mode 4 \
+	--hide-cursor-delay 3000 \
+	--fade-out-duration 200 \
+	--steam \
+	-- steam -steamos3 -steampal -steamdeck
+
+#flatpak run --filesystem=/home/junior/projects/gamescope-session --command=/home/junior/projects/gamescope-session/start-steam  com.valvesoftware.Steam

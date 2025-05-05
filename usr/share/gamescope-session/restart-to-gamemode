@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+sudo /usr/share/gamescope-session/steam-session-autologin start
+
+if pgrep -x sway > /dev/null; then
+  swaymsg exit
+elif pgrep -x Hyprland > /dev/null; then
+  hyprctl dispatch exit
+fi
+
+exit 0

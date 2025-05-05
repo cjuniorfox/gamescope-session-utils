@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo /usr/share/gamescope-session/steam-session-autologin stop
+steam -shutdown
