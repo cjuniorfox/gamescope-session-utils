@@ -30,6 +30,6 @@ make DESTDIR=%{buildroot} install
 /usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
 
 %changelog
-* Fri May 03 2025 Your Name <you@example.com> - 1.0-1
+* Fri May 03 2025 Your Name <cjuniorfox@gmail.com> - 1.0-1
 - Initial package
 
