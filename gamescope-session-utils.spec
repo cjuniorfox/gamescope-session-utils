@@ -1,4 +1,4 @@
-Name:           gamescope-session
+Name:           gamescope-session-utils
 Version:        1.1
 Release:        1%{?dist}
 Summary:        Custom Steam Gamescope session switcher
