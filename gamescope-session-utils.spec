@@ -7,6 +7,8 @@ License:        MIT
 URL:            https://yourprojecturl.example
 Source0:        %{name}-%{version}.tar.gz
 
+Requires:       lsb_release
+Requires:       gamescope
 Requires:       steam
 Requires:       sudo
 
@@ -16,17 +18,20 @@ BuildRequires:  make
 %description
 Custom Steam session management tools for switching between Steam gaming and regular desktop sessions using SDDM autologin.
 
+%{!?_userunitdir:%global _userunitdir %{_prefix}/lib/systemd/user}
+
 %prep
 %autosetup
 
 %install
-mkdir -p %{buildroot}/usr/bin
-install -Dm755 usr/bin/steamos-session-select %{buildroot}/usr/bin/steamos-session-select
+mkdir -p %{buildroot}%{_bindir}
+install -Dm755 usr/bin/steamos-session-select %{buildroot}%{_bindir}/steamos-session-select
 
 mkdir -p %{buildroot}/usr/share/gamescope-session
 install -Dm755 usr/share/gamescope-session/gamescope-session %{buildroot}/usr/share/gamescope-session/gamescope-session
 install -Dm755 usr/share/gamescope-session/restart-to-gamemode %{buildroot}/usr/share/gamescope-session/restart-to-gamemode
 install -Dm755 usr/share/gamescope-session/steam-session-autologin %{buildroot}/usr/share/gamescope-session/steam-session-autologin
+install -Dm755 usr/share/gamescope-session/start-session %{buildroot}/usr/share/gamescope-session/start-session
 
 mkdir -p %{buildroot}/usr/share/applications
 install -Dm644 usr/share/applications/start-steam-session.desktop %{buildroot}/usr/share/applications/start-steam-session.desktop
@@ -37,15 +42,18 @@ install -Dm644 usr/share/wayland-sessions/steam-gamescope.desktop %{buildroot}/u
 mkdir -p %{buildroot}/usr/share/icons/hicolor/scalable/actions
 install -Dm644 usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg %{buildroot}/usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
 
+install -Dm644 usr/lib/systemd/user/gamescope-session.service %{buildroot}%{_userunitdir}/gamescope-session.service
+
 %files
 %license LICENSE
 %doc README.md
 
-/usr/bin/steamos-session-select
+%{_bindir}/steamos-session-select
 /usr/share/gamescope-session/*
 /usr/share/applications/start-steam-session.desktop
 /usr/share/wayland-sessions/steam-gamescope.desktop
 /usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
+%{_userunitdir}/gamescope-session.service
 
 %changelog
 * Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.3-1
