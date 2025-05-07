@@ -1,17 +1,64 @@
-#!/bin/bash
+#!/usr/bin/bash
+
+SYS_ID="$(cat /sys/devices/virtual/dmi/id/product_name)"
+
+
 export ENABLE_HDR_WSI=1
 export DXVK_HDR=1
 
-# Start user dbus session
-if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-  eval "$(dbus-launch --sh-syntax)"
-  trap 'kill $DBUS_SESSION_BUS_PID' EXIT
-fi
+
+# Reported better framelimiting with this enabled
+export ENABLE_GAMESCOPE_WSI=1
+
+# Force Qt applications to run under xwayland
+export QT_QPA_PLATFORM=xcb
+
+
+# Some environment variables by default (taken from Deck session)
+export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
+
+# Enable Mangoapp
+export MANGOHUD_CONFIGFILE=$(mktemp /tmp/mangohud.XXXXXXXX)
+
+export RADV_FORCE_VRS_CONFIG_FILE=$(mktemp /tmp/radv_vrs.XXXXXXXX)
+
+# Plop GAMESCOPE_MODE_SAVE_FILE into $XDG_CONFIG_HOME (defaults to ~/.config).
+export GAMESCOPE_MODE_SAVE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/gamescope/modes.cfg"
+export GAMESCOPE_PATCHED_EDID_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/gamescope/edid.bin"
+
+# Make path to gamescope mode save file.
+mkdir -p "$(dirname "$GAMESCOPE_MODE_SAVE_FILE")"
+touch "$GAMESCOPE_MODE_SAVE_FILE"
+
+# Make path to Gamescope edid patched file.
+mkdir -p "$(dirname "$GAMESCOPE_PATCHED_EDID_FILE")"
+touch "$GAMESCOPE_PATCHED_EDID_FILE"
+
+# Initially write no_display to our config file
+mkdir -p "$(dirname "$MANGOHUD_CONFIGFILE")"
+echo "no_display" >"$MANGOHUD_CONFIGFILE"
+
+#Initial VRS
+mkdir -p "$(dirname "$RADV_FORCE_VRS_CONFIG_FILE")"
+echo "1x1" >"$RADV_FORCE_VRS_CONFIG_FILE"
+
+# To expose vram info from radv
+export WINEDLLOVERRIDES=dxgi=n
+
+# Don't wait for buffers to idle on the client side before sending them to gamescope
+export vk_xwayland_wait_ready=false
+
+
+# To play nice with the short term callback-based limiter for now
+export GAMESCOPE_LIMITER_FILE=$(mktemp /tmp/gamescope-limiter.XXXXXXXX)
+
+# Temporary crutch until dummy plane interactions / etc are figured out
+export GAMESCOPE_DISABLE_ASYNC_FLIPS=1
+
+ulimit -n 524288
 
 # Start Gamescope natively and run Steam Flatpak inside it
 exec /usr/bin/gamescope \
-	-W 3840 -H 2180 \
-	-w 2560 -h 1440 \
 	--xwayland-count 2 \
 	--default-touch-mode 4 \
 	--hide-cursor-delay 3000 \
