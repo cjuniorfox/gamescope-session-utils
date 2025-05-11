@@ -4,7 +4,7 @@ Release:        1%{?dist}
 Summary:        Custom Steam Gamescope session switcher
 
 License:        MIT
-URL:            https://yourprojecturl.example
+URL:            https://github.com/cjuniorfox/gamescope-session-utils
 Source0:        %{name}-%{version}.tar.gz
 
 Requires:       lsb_release
@@ -23,48 +23,37 @@ Custom Steam session management tools for switching between Steam gaming and reg
 %prep
 %autosetup
 
+%build
+# No build steps required
+
 %install
-mkdir -p %{buildroot}%{_bindir}
-install -Dm755 usr/bin/steamos-session-select %{buildroot}%{_bindir}/steamos-session-select
-
-mkdir -p %{buildroot}/usr/share/gamescope-session
-install -Dm755 usr/share/gamescope-session/gamescope-session %{buildroot}/usr/share/gamescope-session/gamescope-session
-install -Dm755 usr/share/gamescope-session/restart-to-gamemode %{buildroot}/usr/share/gamescope-session/restart-to-gamemode
-install -Dm755 usr/share/gamescope-session/steam-session-autologin %{buildroot}/usr/share/gamescope-session/steam-session-autologin
-install -Dm755 usr/share/gamescope-session/start-session %{buildroot}/usr/share/gamescope-session/start-session
-
-mkdir -p %{buildroot}/usr/share/applications
-install -Dm644 usr/share/applications/start-steam-session.desktop %{buildroot}/usr/share/applications/start-steam-session.desktop
-
-mkdir -p %{buildroot}/usr/share/wayland-sessions
-install -Dm644 usr/share/wayland-sessions/steam-gamescope.desktop %{buildroot}/usr/share/wayland-sessions/steam-gamescope.desktop
-
-mkdir -p %{buildroot}/usr/share/icons/hicolor/scalable/actions
-install -Dm644 usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg %{buildroot}/usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
-
-install -Dm644 usr/lib/systemd/user/gamescope-session.service %{buildroot}%{_userunitdir}/gamescope-session.service
+%make_install
 
 %files
 %license LICENSE
 %doc README.md
 
+%{_bindir}/jupiter-biosupdate
+%{_bindir}/steamos-select-branch
 %{_bindir}/steamos-session-select
-/usr/share/gamescope-session/*
-/usr/share/applications/start-steam-session.desktop
-/usr/share/wayland-sessions/steam-gamescope.desktop
-/usr/share/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
+%{_bindir}/steamos-update
+%{_bindir}/steamos-polkit-helpers/steamos-set-timezone
+%{_bindir}/steamos-polkit-helpers/steamos-update
+
+%{_datadir}/gamescope-session/gamescope-session
+%{_datadir}/gamescope-session/restart-to-gamemode
+%{_datadir}/gamescope-session/steam-session-autologin
+%{_datadir}/gamescope-session/start-session
+
+%{_datadir}/applications/start-steam-session.desktop
+%{_datadir}/wayland-sessions/steam-gamescope.desktop
+%{_datadir}/icons/hicolor/scalable/actions/steamdeck-gaming-return.svg
+
 %{_userunitdir}/gamescope-session.service
 
 %changelog
-* Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.3-1
-- new package built with tito
-
-* Sun May 04 2025 Junior <cjuniorfox@gmail.com>
-- new package built with tito
-
-* Sun May 04 2025 Junior <cjuniorfox@gmail.com> 1.1-1
-- new package built with tito
-
-* Sun May 04 2025 Junior Fox <cjuniorfox@gmail.com> - 1.0-1
-- Initial build
+* Sun May 11 2025 Junior Fox <cjuniorfox@gmail.com> 1.3-1
+- Switched to Makefile-based install
+- Replaced hardcoded /usr/share with macros
+- Improved maintainability
 
